@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Z Language: Syntax Analyzer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="logo.png" alt="Z Language Logo">
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="header">
+            <h1>Z LANGUAGE: SYNTAX<br>ANALYZER</h1>
+            <p class="subtitle">A syntax analyzer for the Z-LANG that detects errors in code<br>and provides clean feedback to help users write correct, clean, and<br>well-structured programs.</p>
+        </div>
+
+        <div class="main-panel">
+            <div class="panel-grid">
+                <div class="panel-section">
+                    <div class="panel-header">
+                        <span>Source code:</span>
+                        <button class="copy-btn" onclick="copyCode()">
+                            <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="editor-wrapper">
+                        <div class="line-numbers" id="lineNumbers">1</div>
+                        <textarea class="editor" id="codeEditor" placeholder="Enter your Z-LANG code here..." oninput="updateLineNumbers()" onscroll="syncScroll()"></textarea>
+                    </div>
+                </div>
+
+                <div class="panel-section">
+                    <div class="panel-header">
+                        <span>Syntax Analyzer</span>
+                        <button class="delete-btn" onclick="clearResults()">
+                            <svg class="delete-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                <line x1="10" y1="11" x2="10" y2="17"></line>
+                                <line x1="14" y1="11" x2="14" y2="17"></line>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="analyzer-results" id="analyzerResults">
+                        <div class="placeholder-text">
+                            System is ready to analyze!<br>
+                            Please enter a code to analyze.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="analyze-btn" onclick="analyzeCode()">Analyze</button>
+
+        <div class="how-to-section">
+            <div class="how-to-box">
+                <h2 class="how-to-title">How to Use the Syntax Analyzer</h2>
+                <div class="how-to-grid">
+                    <div class="how-to-card">
+                        <div class="step-number">1</div>
+                        <h3>Enter Your Code</h3>
+                        <p>Type or paste your Z-LANG code into the source code editor on the left side.</p>
+                    </div>
+                    <div class="how-to-card">
+                        <div class="step-number">2</div>
+                        <h3>Click Analyze</h3>
+                        <p>Press the "Analyze" button to check your code for syntax errors.</p>
+                    </div>
+                    <div class="how-to-card">
+                        <div class="step-number">3</div>
+                        <h3>Review Results</h3>
+                        <p>Check the Syntax Analyzer panel on the right to see any errors detected with line numbers.</p>
+                    </div>
+                    <div class="how-to-card">
+                        <div class="step-number">4</div>
+                        <h3>Fix & Re-analyze</h3>
+                        <p>Correct the errors in your code and run the analyzer again until your code is error-free.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">×</button>
+            <div class="modal-icon" id="modalIcon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+            </div>
+            <div class="modal-title" id="modalTitle">Analyzed Syntax!</div>
+            <div class="modal-message" id="modalMessage">There is an error in the code.</div>
+            <button class="modal-btn" onclick="closeModal()">Proceed</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
