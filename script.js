@@ -1,4 +1,4 @@
-const KEYWORDS = [
+const KEYWORDS = [ 
     'ALIAS', 'BLEND', 'BOOL', 'BOUNCE', 'CAP', 'CASE', 'CORE', 'DECI', 'DOUBLE',
     'DROP', 'ELSE', 'EMOJI', 'EMPTY', 'ENUM', 'FAM', 'FIXED', 'FOR', 'GRAB',
     'IF', 'IMPORT', 'LENGTH', 'LETT', 'MAXI', 'MINI', 'MATIC', 'NEXT', 'NOCAP',
@@ -11,7 +11,7 @@ const FUNCTIONS = ['avg', 'ascending', 'descending', 'max', 'min', 'findString']
 function updateLineNumbers() {
     const editor = document.getElementById('codeEditor');
     const lineNumbers = document.getElementById('lineNumbers');
-    const lines = editor.value.split('\n').length;
+    const lines = editor.value.split('\n').length || 1;
     lineNumbers.textContent = Array.from({length: lines}, (_, i) => i + 1).join('\n');
 }
 
@@ -27,7 +27,28 @@ function copyCode() {
     document.execCommand('copy');
 }
 
-function clearResults() {
+function pasteCode() {
+    const editor = document.getElementById('codeEditor');
+    navigator.clipboard.readText().then(text => {
+        editor.value += text;
+        updateLineNumbers();
+    });
+}
+
+function clearAll() {
+    // Clear the code editor
+    document.getElementById('codeEditor').value = '';
+    
+    // Reset line numbers to 1
+    document.getElementById('lineNumbers').textContent = '1';
+    
+    // Clear error highlights
+    clearErrorHighlights();
+    
+    // Reset summary
+    document.getElementById('analysisSummary').innerHTML = '<span class="summary-text">Ready to analyze</span>';
+    
+    // Clear the results panel
     const resultsDiv = document.getElementById('analyzerResults');
     resultsDiv.innerHTML = `
         <div class="placeholder-text">
@@ -41,7 +62,7 @@ function analyzeCode() {
     const code = document.getElementById('codeEditor').value.trim();
     
     if (!code) {
-        showModal('error', 'NO CODE ENTERED', 'Please enter Z-LANG code to analyze.');
+        showModal('error', 'INPUT REQUIRED', 'Please enter a code to analyze.');
         return;
     }
 
@@ -127,6 +148,22 @@ function performSyntaxAnalysis(code) {
 
 function displayResults(errors) {
     const resultsDiv = document.getElementById('analyzerResults');
+    const summaryDiv = document.getElementById('analysisSummary');
+    
+    // Clear any existing highlights
+    clearErrorHighlights();
+    
+    // Highlight error lines in the editor
+    if (errors.length > 0) {
+        highlightErrorLines(errors);
+    }
+    
+    // Update summary
+    if (errors.length === 0) {
+        summaryDiv.innerHTML = '<span class="summary-text success">✓ Analysis Complete: No errors found</span>';
+    } else {
+        summaryDiv.innerHTML = `<span class="summary-text error">✗ Analysis Complete: ${errors.length} error${errors.length > 1 ? 's' : ''} found</span>`;
+    }
     
     if (errors.length === 0) {
         resultsDiv.innerHTML = `
@@ -140,9 +177,6 @@ function displayResults(errors) {
                 <tbody>
                     <tr>
                         <td colspan="2" style="text-align: center; padding: 40px; color: #00d964;">
-                            <svg style="width: 24px; height: 24px; display: inline-block; vertical-align: middle; margin-right: 8px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="20 6 9 17 4 12"></polyline>
-                            </svg>
                             No syntax errors detected
                         </td>
                     </tr>
@@ -179,6 +213,23 @@ function displayResults(errors) {
     }
 }
 
+function highlightErrorLines(errors) {
+    const editorWrapper = document.querySelector('.editor-wrapper');
+    
+    errors.forEach(error => {
+        const highlight = document.createElement('div');
+        highlight.className = 'error-line-highlight';
+        highlight.style.top = `${(error.line - 1) * 20.8 + 15}px`;
+        highlight.setAttribute('data-line', error.line);
+        editorWrapper.appendChild(highlight);
+    });
+}
+
+function clearErrorHighlights() {
+    const highlights = document.querySelectorAll('.error-line-highlight');
+    highlights.forEach(h => h.remove());
+}
+
 function showModal(type, title, message) {
     const modal = document.getElementById('modal');
     const icon = document.getElementById('modalIcon');
@@ -211,6 +262,28 @@ function showModal(type, title, message) {
 function closeModal() {
     document.getElementById('modal').classList.remove('active');
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+
+    const revealElements = document.querySelectorAll('.how-to-box, .how-to-card');
+
+    function revealOnScroll() {
+        revealElements.forEach((el, index) => {
+            const elementTop = el.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+
+            if (elementTop < windowHeight - 100) {
+                setTimeout(() => {
+                    el.classList.add('show');
+                }, index * 120); // stagger
+            }
+        });
+    }
+
+    window.addEventListener('scroll', revealOnScroll);
+    revealOnScroll(); // run once on load
+
+});
 
 // Initialize line numbers
 updateLineNumbers();
