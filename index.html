@@ -12,7 +12,7 @@
 <body>
     <nav class="navbar">
         <div class="logo">
-            <img src="logo.png" alt="Z Language Logo">
+            <img src="logo.png" alt="Logo">
         </div>
     </nav>
 
@@ -43,7 +43,7 @@
                 <div class="panel-section">
                     <div class="panel-header">
                         <span>Syntax Analyzer</span>
-                        <button class="delete-btn" onclick="clearResults()">
+                        <button class="delete-btn" onclick="clearAll()">
                             <svg class="delete-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <polyline points="3 6 5 6 21 6"></polyline>
                                 <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
@@ -58,6 +58,9 @@
                             Please enter a code to analyze.
                         </div>
                     </div>
+                    <div class="analysis-summary" id="analysisSummary">
+                        <span class="summary-text">Ready to analyze</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -66,27 +69,27 @@
 
         <div class="how-to-section">
             <div class="how-to-box">
-                <h2 class="how-to-title">How to Use the Syntax Analyzer</h2>
+                <h2 class="how-to-title">How to Use</h2>
                 <div class="how-to-grid">
                     <div class="how-to-card">
                         <div class="step-number">1</div>
-                        <h3>Enter Your Code</h3>
-                        <p>Type or paste your Z-LANG code into the source code editor on the left side.</p>
+                        <h3>Write Your Code</h3>
+                        <p>Enter your Z-LANG code in the source code editor on the left panel.</p>
                     </div>
                     <div class="how-to-card">
                         <div class="step-number">2</div>
                         <h3>Click Analyze</h3>
-                        <p>Press the "Analyze" button to check your code for syntax errors.</p>
+                        <p>Press the "Analyze" button to run the syntax analysis on your code.</p>
                     </div>
                     <div class="how-to-card">
                         <div class="step-number">3</div>
                         <h3>Review Results</h3>
-                        <p>Check the Syntax Analyzer panel on the right to see any errors detected with line numbers.</p>
+                        <p>Check the analyzer panel for any syntax errors with line numbers and descriptions.</p>
                     </div>
                     <div class="how-to-card">
                         <div class="step-number">4</div>
-                        <h3>Fix & Re-analyze</h3>
-                        <p>Correct the errors in your code and run the analyzer again until your code is error-free.</p>
+                        <h3>Fix & Repeat</h3>
+                        <p>Correct the errors in your code and analyze again until no errors are found.</p>
                     </div>
                 </div>
             </div>
@@ -108,6 +111,29 @@
             <button class="modal-btn" onclick="closeModal()">Proceed</button>
         </div>
     </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="footer-logo">
+                    <img src="logo.png" alt="Z Language Logo">
+                </div>
+                <p class="footer-tagline">Z-LANG Syntax Analyzer</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Credits</h3>
+                <p>Developed by the ZLANG Team</p>
+                <p>© 2025 All Rights Reserved</p>
+            </div>
+            
+            <div class="footer-section">
+                <h3>Contact Us</h3>
+                <p>Email: support@zlang.dev</p>
+                <p>Discord: zlang-community</p>
+            </div>
+        </div>
+    </footer>
 
     <script src="script.js"></script>
 </body>
