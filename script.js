@@ -63,6 +63,13 @@ function analyzeCode() {
     
     if (!code) {
         showModal('error', 'INPUT REQUIRED', 'Please enter a code to analyze.');
+        const resultsDiv = document.getElementById('analyzerResults');
+        resultsDiv.innerHTML = `
+            <div class="placeholder-text">
+                System is ready to analyze!<br>
+                Please enter a code to analyze.
+            </div>
+        `;
         return;
     }
 
@@ -149,6 +156,8 @@ function performSyntaxAnalysis(code) {
 function displayResults(errors) {
     const resultsDiv = document.getElementById('analyzerResults');
     const summaryDiv = document.getElementById('analysisSummary');
+    const code = document.getElementById('codeEditor').value.trim();
+    const lines = code.split('\n').length;
     
     // Clear any existing highlights
     clearErrorHighlights();
@@ -158,12 +167,23 @@ function displayResults(errors) {
         highlightErrorLines(errors);
     }
     
-    // Update summary
-    if (errors.length === 0) {
-        summaryDiv.innerHTML = '<span class="summary-text success">✓ Analysis Complete: No errors found</span>';
-    } else {
-        summaryDiv.innerHTML = `<span class="summary-text error">✗ Analysis Complete: ${errors.length} error${errors.length > 1 ? 's' : ''} found</span>`;
-    }
+    // Update summary with Analysis Completed box
+    summaryDiv.innerHTML = `
+        <div class="analysis-completed-box">
+            <div class="analysis-completed-header">Analysis Completed!</div>
+            <div class="analysis-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Line:</span>
+                    <span class="stat-value">${lines}</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat-item">
+                    <span class="stat-label error-label">Error Detected:</span>
+                    <span class="stat-value error-value">${errors.length}</span>
+                </div>
+            </div>
+        </div>
+    `;
     
     if (errors.length === 0) {
         resultsDiv.innerHTML = `
